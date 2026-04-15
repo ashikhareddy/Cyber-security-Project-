@@ -4,11 +4,11 @@ In Week 5, we started working on the actual network design and tried to turn our
 
 ## Progress
 
-At the start of the week, Kunz and Masoom created the first version of the network design. It was pretty basic at first, just simple boxes showing the components. We showed it to the mentor, and he told us to make it more detailed and realistic.
+At the start of the week, Kunj and Masum created the first version of the network design. It was pretty basic at first, just simple boxes showing the components. We showed it to the mentor, and he told us to make it more detailed and realistic.
 
-After that, they worked on improving the diagram by using proper icons and arranging it better. Masoom also began working on the technical side by trying out IP configurations and setting up the network in Packet Tracer. Kunz kept improving the design layout.
+After that, they worked on improving the diagram by using proper icons and arranging it better. Masum also began working on the technical side by trying out IP configurations and setting up the network in Cisco Packet Tracer. Kunj kept improving the design layout.
 
-Later in the week, we had a meeting where Masoom explained the configurations he was working on, and Kunz showed the updated network design. Even though it was better, there were still parts that needed more work.
+Later in the week, we had a meeting where Masum explained the configurations he was working on, and Kunj showed the updated network design. Even though it was better, there were still parts that needed more work.
 
 ## Challenges
 
