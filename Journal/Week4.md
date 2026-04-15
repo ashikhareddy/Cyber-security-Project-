@@ -1,25 +1,25 @@
 # Overview
 
-In Week 4, our main focus was on improving and finalising the network design document. After completing the proposal in the previous week, we started working on the detailed explanation of the network, including topology, devices used, data flow, and security features. We also focused on making the document more clear and properly structured.
+In Week 4, we focused on improving and finishing the network design document. After completing the proposal last week, we started working on explaining the network in detail. This included the topology, devices used, data flow, and security features. We also worked on making the document clearer and better organized.
 
 # Progress
 
-During this week, we worked on explaining the complete network design in detail. We finalised the hub-and-spoke topology and clearly described how hospitals are connected through a central cloud system. We also added explanations for the devices used in the network, such as routers, switches, firewalls, and access points.
+This week, we explained the whole network design more clearly. We finalized the hub-and-spoke topology and described how the hospitals connect through a central cloud system. We also added details about the devices we used, like routers, switches, firewalls, and access points.
 
-One of the major tasks completed this week was describing how the network works, including how data is transferred from one hospital to another using a secure VPN connection. We also improved the data transfer section by rewriting it in a more natural way instead of step-by-step points.
+One big task was explaining how the network works, especially how data moves securely between hospitals using a VPN connection. We rewrote the data transfer part to sound more natural instead of just listing steps.
 
-In addition to that, we worked on the access and storage section to explain how users log in, access patient data, and how data is stored securely in the cloud. The security features section was also completed, where we explained VPN, firewall, VLAN, and Wi-Fi security.
+We also improved the section about how users log in, access patient data, and how the data is securely stored in the cloud. The security section was completed too, where we explained VPNs, firewalls, VLANs, and Wi-Fi security.
 
-Another important part of this week was adding all the required diagrams, including topology, internal network, data transfer, and security layers. We made sure each diagram was placed in the correct section with proper captions.
+Another important thing we did was add all the necessary diagrams—topology, internal network, data transfer, and security layers. We made sure each diagram was in the right place with clear captions.
 
 # Challenges
 
-While working on the document, we faced some difficulties in making the explanations simple and less technical. At first, some parts of the document looked too complex and felt like AI-generated content, so we had to rewrite several sections to make them more natural and easier to understand.
+While working on the document, we found it hard to make some explanations simple and less technical. At first, some parts sounded too complicated and like they were written by AI, so we rewrote them to make them easier to read and more natural.
 
-We also had some confusion in placing the diagrams correctly and making sure they matched the explanation. It took some time to organise everything properly and ensure the formatting was consistent throughout the document.
+We also had some trouble placing the diagrams correctly and making sure they matched the text. It took some time to organize everything well and fix formatting so the document looked consistent.
 
 # Reflection
 
-This week helped us understand the importance of clear explanation and proper documentation in a project. We realised that it is not enough to just complete the work, but it is also important to present it in a way that is easy to understand.
+This week taught us how important it is to explain things clearly and have good documentation. It’s not enough to just finish the work; we need to present it in a way that others can easily understand.
 
-We also improved our teamwork by reviewing each other’s work and making necessary changes. Overall, we were able to complete a well-structured document with proper diagrams and explanations, which gives us a strong base for the next stages of the project.
+We also got better at working as a team by checking each other’s work and making changes when needed. Overall, we managed to finish a well-structured document with clear diagrams and explanations, which sets a good foundation for the next steps in our project.
