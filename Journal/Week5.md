@@ -40,3 +40,25 @@ Even with these challenges, we managed to get back on track by organizing the me
 <img width="682" height="586" alt="server ip config" src="https://github.com/user-attachments/assets/f44d0bd4-e011-4ee2-9434-a2e09f9cff73" />
 <img width="685" height="476" alt="hospital router1" src="https://github.com/user-attachments/assets/7b093625-0ef4-42e2-859d-89c63162f083" />
 
+
+
+Week 5 – Progress Update
+
+In Week 5, I focused on designing and improving the network architecture for the healthcare system. My main contribution was creating detailed network diagrams that represent a secure and scalable hospital network.
+
+Initially, I developed a basic hub-and-spoke topology connecting multiple hospitals (Hospital A, B, and C) to a central core router and data centre. This design ensures that all communication between hospitals is routed through a central system, improving control, monitoring, and security.
+
+After that, I enhanced the design by adding key network components such as routers, switches, and servers to clearly show how data flows from hospital locations to the central data centre. This helped in improving the clarity and structure of the network.
+
+I then designed a security layer model to demonstrate how data is protected at different levels. This includes Wi-Fi security (WPA2), VLAN segmentation, firewall protection, and encrypted data transmission before reaching the data centre. This layered approach ensures strong protection of sensitive healthcare information.
+
+Finally, I created an advanced network diagram that includes VLAN segmentation for different user groups such as admin staff, doctors, and IoT/medical devices. I also integrated Cisco devices such as Router 2911, ASA 5506 firewall, and 2960 switch. This design improves network performance, access control, and overall security. VPN support was also included to enable secure communication between remote hospital sites.
+
+Overall, my work in Week 5 shows the progression from a basic network structure to a more advanced and secure healthcare network design, focusing on scalability, segmentation, and data protection.
+
+<img width="1098" height="730" alt="image" src="https://github.com/user-attachments/assets/25acbd49-cab4-4720-a5e6-cf190094e7db" />
+<img width="611" height="874" alt="image" src="https://github.com/user-attachments/assets/2f61ffa3-d0eb-456c-a719-a497028ef594" />
+<img width="951" height="781" alt="image" src="https://github.com/user-attachments/assets/521d2e74-a881-49de-9884-a16c431e05fb" />
+<img width="1267" height="608" alt="image" src="https://github.com/user-attachments/assets/f0bd6694-3909-44ab-a173-4994e46ae7ef" />
+
+
