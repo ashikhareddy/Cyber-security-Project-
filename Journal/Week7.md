@@ -9,7 +9,8 @@ Below we have pasted the design of the network. we have also provided the file b
 
 <img width="1027" height="913" alt="Screenshot 2026-04-27 211440" src="https://github.com/user-attachments/assets/91c0aa5c-1fcf-4d65-83d2-93d872771ac4" />
 
-Please this link to access the file -> [MMHN_Network_Design.drawio](https://github.com/user-attachments/files/27123787/MMHN_Network_Design.drawio)
+
+Please click this link to access the file -> [MMHN_Network_Design.drawio](https://github.com/user-attachments/files/27123787/MMHN_Network_Design.drawio)
 <mxfile host="app.diagrams.net">
   <diagram id="u0E5gDnnksihhXm-GPRx" name="Page-1">
     <mxGraphModel dx="1667" dy="2811" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="2000" math="0" shadow="0">
@@ -318,31 +319,31 @@ Please this link to access the file -> [MMHN_Network_Design.drawio](https://gith
 Now what do the devices do in here:
 
 - Internet (Public Network)
-The outside world — the road that all traffic between campuses and external services travels on.
+The outside world the road that all traffic between campuses and external services travels on.
 
 - ISP Router
-Your network's front door to the internet — forwards traffic in and out but has zero knowledge of what's inside your network.
+Your network's front door to the internet forwards traffic in and out but has zero knowledge of what's inside your network.
 
 - Central Firewall (Cisco ASA)
-The single gatekeeper — every packet in the entire network passes through here and gets inspected, allowed, or blocked.
+The single gatekeeper every packet in the entire network passes through here and gets inspected, allowed, or blocked.
 
 - Central Server / Patient Data Storage (Database Server)
-Stores all patient records for all three campuses — the single source of truth for the entire organisation.
+Stores all patient records for all three campuses the single source of truth for the entire organisation.
 
 - Shared Campus Server
-Handles authentication, file services and caching for all three campuses — keeps the network running even if the patient data server has issues.
+Handles authentication, file services and caching for all three campuses keeps the network running even if the patient data server has issues.
 
 - Router A / B / C (Cisco 2511)
-Each campus's gateway — connects the campus LAN to the firewall and runs the IPSec VPN tunnel to encrypt inter-campus traffic.
+Each campus's gateway connects the campus LAN to the firewall and runs the IPSec VPN tunnel to encrypt inter-campus traffic.
 
 - Switch A / B / C (Cisco 2960)
 Distributes the network connection to all devices inside the campus and separates Admin and Clinical staff into separate VLANs.
 
 - PC-x1 / PC-x2 (VLAN 10 Admin)
-Admin staff devices — reception, billing, scheduling — kept on their own VLAN so they can't access clinical systems.
+Admin staff devices reception, billing, scheduling kept on their own VLAN so they can't access clinical systems.
 
 - PC-x3 (VLAN 20 Clinical)
-Clinical staff devices — doctors and nurses — kept isolated from admin so patient data is only accessible to authorised medical staff.
+Clinical staff devices doctors and nurses kept isolated from admin so patient data is only accessible to authorised medical staff.
 
 - VPN Tunnel (IPSec AES-256)
-An encrypted pipe running over the public internet between campuses — anyone intercepting the traffic sees nothing but scrambled data.
+An encrypted pipe running over the public internet between campuses anyone intercepting the traffic sees nothing but scrambled data.
