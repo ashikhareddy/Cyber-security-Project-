@@ -347,3 +347,6 @@ Clinical staff devices doctors and nurses kept isolated from admin so patient da
 
 - VPN Tunnel (IPSec AES-256)
 An encrypted pipe running over the public internet between campuses anyone intercepting the traffic sees nothing but scrambled data.
+
+## Conclusion
+The Melbourne Metro Health Network (MMHN) connects three hospital campuses across Melbourne, Clayton, Mernda, and CBD, using a hub and spoke design built around a single central firewall that inspects all network traffic. Each campus runs an independent LAN segmented into Admin (VLAN 10) and Clinical (VLAN 20) zones, with inter-campus communication secured through IPSec AES-256 VPN tunnels over the public internet. At the hub, a Database Server holds all patient records as a centralised source of truth, while a Shared Campus Server handles authentication and file services for all three sites. The result is a simple, secure, and cost-effective network that protects sensitive patient data, minimises unnecessary hardware, and meets the requirements of a modern healthcare organisation.
