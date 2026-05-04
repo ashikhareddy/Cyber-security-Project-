@@ -7,6 +7,8 @@ Today, we met at the university and worked together on improving the network des
 Following up on the meeting we have curated a network design which is the most simplest WAN with covering all the concepts of what we have learnt so far.
 Below we have pasted the design of the network. we have also provided the file below it so you can open it in draw.io and see the full design properly. This design took lots of meetings, trial and errors.
 
+Design 1- 
+
 <img width="1027" height="913" alt="Screenshot 2026-04-27 211440" src="https://github.com/user-attachments/assets/91c0aa5c-1fcf-4d65-83d2-93d872771ac4" />
 
 
@@ -348,5 +350,25 @@ Clinical staff devices doctors and nurses kept isolated from admin so patient da
 - VPN Tunnel (IPSec AES-256)
 An encrypted pipe running over the public internet between campuses anyone intercepting the traffic sees nothing but scrambled data.
 
+We contributed by updating the GitHub content and also working on the network design after the Zoom meeting with the mentor. Based on the feedback given, made changes in the diagram using draw.io, especially improving the VPN structure, firewall placement, and overall layout of the design , helped in refining the diagram to make it more clear and aligned with the requirements discussed during the meeting.
+
+We also reviewed our previous mistakes and made sure not to repeat them. Compared to earlier weeks, our communication has improved and everyone is contributing their ideas, which helped us move forward more effectively.
+
+Now our updated design is much more structured and clearly shows how the campuses are connected using VPN over the internet, with a central firewall and servers placed in the CBD campus.
+
+This design took multiple discussions, trial and error, and continuous improvements based on feedback. We believe this version better meets the project requirements and mentor expectations.
+
+Design 2 - 
+
+<img width="1365" height="767" alt="image" src="https://github.com/user-attachments/assets/8a16653e-6daf-4f2e-aa8a-2872e1497332" />
+<img width="1327" height="343" alt="image" src="https://github.com/user-attachments/assets/db74ac64-1b64-4b82-ba90-1b111692f7dc" />
+
+"C:\Users\ashik\Downloads\Networkdesignfinal.drawio"
+
 ## Conclusion
-The Melbourne Metro Health Network (MMHN) connects three hospital campuses across Melbourne, Clayton, Mernda, and CBD, using a hub and spoke design built around a single central firewall that inspects all network traffic. Each campus runs an independent LAN segmented into Admin (VLAN 10) and Clinical (VLAN 20) zones, with inter-campus communication secured through IPSec AES-256 VPN tunnels over the public internet. At the hub, a Database Server holds all patient records as a centralised source of truth, while a Shared Campus Server handles authentication and file services for all three sites. The result is a simple, secure, and cost-effective network that protects sensitive patient data, minimises unnecessary hardware, and meets the requirements of a modern healthcare organisation.
+Design 1 - The Melbourne Metro Health Network (MMHN) connects three hospital campuses across Melbourne, Clayton, Mernda, and CBD, using a hub and spoke design built around a single central firewall that inspects all network traffic. Each campus runs an independent LAN segmented into Admin (VLAN 10) and Clinical (VLAN 20) zones, with inter-campus communication secured through IPSec AES-256 VPN tunnels over the public internet. At the hub, a Database Server holds all patient records as a centralised source of truth, while a Shared Campus Server handles authentication and file services for all three sites. The result is a simple, secure, and cost-effective network that protects sensitive patient data, minimises unnecessary hardware, and meets the requirements of a modern healthcare organisation.
+
+Design 2 - In this update, we made several important improvements to our network design based on the mentor’s feedback. The main change was correcting the VPN structure by clearly showing that all campus connections go through the internet instead of direct links. This helped make the design more realistic and aligned with how actual networks operate.
+We also centralised the architecture by making the CBD campus the main hub of the network. A single firewall was placed in the CBD campus to act as the main security point, ensuring that all incoming and outgoing traffic is filtered properly. The servers were moved into a dedicated DMZ zone to improve security and separate them from the internal network.
+Additionally, we improved the internal structure by adding VLAN segmentation for different user groups such as admin, doctors, IoT devices, and guest Wi-Fi. This helps in better traffic management and network security.
+Overall, the updated design is more clear, structured, and secure compared to the previous version. It now better represents a real-world network by using proper VPN implementation, centralised control, and secure server placement.
