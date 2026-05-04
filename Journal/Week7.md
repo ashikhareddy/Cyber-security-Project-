@@ -1,4 +1,4 @@
-[Networkdesignfinal.drawio](https://github.com/user-attachments/files/27353620/Networkdesignfinal.drawio)In week 7, we again started working on the network design because our mentor was not satisfied with our previous design. After checking the feedback carefully, we realised that our diagram was not clear enough.
+In week 7, we again started working on the network design because our mentor was not satisfied with our previous design. After checking the feedback carefully, we realised that our diagram was not clear enough.
 
 During the break week, we had a meeting where we discussed our overall progress and what changes need to be done. We mainly focused on understanding the feedback and identifying the mistakes in our design.
 
@@ -361,6 +361,7 @@ This design took multiple discussions, trial and error, and continuous improveme
 Design 2 - 
 
 <img width="1930" height="1481" alt="Networkdesignfinal drawio" src="https://github.com/user-attachments/assets/e312c3da-90ed-4e14-b27a-5bbeb148da7d" />
+[Networkdesignfinal.drawio](https://github.com/user-attachments/files/27353620/Networkdesignfinal.drawio)
 
 [Uploading Networkdesignfinal.drawio…<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.6 Chrome/144.0.7559.236 Electron/40.8.4 Safari/537.36" version="29.6.6">
   <diagram name="Page-1" id="zUiuGJRh5Gmbq_I8rG2n">
