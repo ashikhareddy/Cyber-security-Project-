@@ -12,6 +12,9 @@ Team: Ashikha Pakkiru, Kunj Patel, Kunj Acharya, Masum Patel
 This week the group focused entirely on building the MMHN network in Cisco Packet Tracer. The goal was to take the logical design from earlier weeks and turn it into a working simulation. We configured VLANs, inter-campus routing, wireless, access control, firewall zones, and IPSec VPN tunnels across all three campuses.
 
 ---
+## Network Design Final
+
+<img width="1915" height="1621" alt="Networkdesignfinal drawio" src="https://github.com/user-attachments/assets/25ee0967-1c1b-41fc-a098-76806005c8f4" />
 
 ## Device setup
 
