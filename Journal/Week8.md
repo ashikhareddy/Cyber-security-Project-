@@ -7,16 +7,16 @@ Team: Ashikha Pakkiru, Kunj Patel, Kunj Acharya, Masum Patel
 
 ---
 
+
 ## What we did this week
 
-This week the group focused entirely on building the MMHN network in Cisco Packet Tracer. The goal was to take the logical design from earlier weeks and turn it into a working simulation. We configured VLANs, inter-campus routing, wireless, access control, firewall zones, and IPSec VPN tunnels across all three campuses.
+This week the group focused entirely on building the MMHN network in Cisco Packet Tracer. The goal was to take the logical design from earlier weeks and turn it into a working simulation. We configured VLANs, inter-campus routing, wireless, access control, firewall zones, IPSec VPN tunnels, and a backup server across all three campuses.
 
 ---
-## Network Design Final
+## Final Network Design
 
 <img width="1915" height="1621" alt="Networkdesignfinal drawio" src="https://github.com/user-attachments/assets/25ee0967-1c1b-41fc-a098-76806005c8f4" />
 
-"C:\Users\ashik\OneDrive\Dokumen\NetworkDesign.drawio"
 
 ## Device setup
 
@@ -28,7 +28,7 @@ We confirmed the following devices were available in Packet Tracer 8.2.2 and pla
 - 1x Cisco ASA 5506-X (CBD firewall)
 - 1x WLC-PT (wireless LAN controller at CBD)
 - 6x AP-PT (2 per campus)
-- 2x Server-PT (CBD-DATA-01 and CBD-AUTH-01)
+- 3x Server-PT (CBD-DATA-01, CBD-AUTH-01, CBD-BACKUP-01)
 - End devices: PCs, laptops, tablets, smartphones, printers
 
 All devices were labelled using a consistent naming format, for example CLAY-RTR-01, CLAY-SW-01, CBD-FW-01, and so on.
@@ -66,10 +66,11 @@ Campus LAN subnets by VLAN:
 - Mernda IoT: 192.168.32.0/24
 - Mernda Guest: 192.168.42.0/24
 
-DMZ servers at CBD:
+DMZ and inside servers at CBD:
 
 - CBD-DATA-01 (patient data storage): 172.16.1.10/24
 - CBD-AUTH-01 (authentication server): 172.16.0.20/24
+- CBD-BACKUP-01 (backup server): 172.16.2.20/24
 
 All end devices were assigned static IPs. DHCP was attempted but could not be made to work reliably because the ASA firewall blocks DHCP relay broadcasts between zones. Static addressing was more practical for the simulation.
 
@@ -101,12 +102,26 @@ with nameif and without a no forward command
 The ASA 5505 Base license in Packet Tracer only allows 2 named interfaces, which meant we could not create a DMZ zone. We replaced all firewall devices with the ASA 5506-X which has Security Plus license and supports unlimited interfaces.
 
 The CBD firewall was configured with four zones:
+
 - outside (Gig1/1): faces CBD-RTR-01, security level 0
 - dmz-auth (Gig1/2): faces CBD-AUTH-01, security level 50
 - dmz-data (Gig1/3): faces CBD-DATA-01, security level 50
 - inside (Gig1/4): faces CBD-SW-01, security level 100
 
-We also tried placing firewalls at Clayton and Mernda but ran into another Packet Tracer limitation. The ASA 5506-X does not support VLAN sub-interfaces on physical ports in the simulation, which meant VLAN-tagged traffic from the switch could not pass through the firewall to reach the router sub-interfaces. After multiple failed attempts to work around this the group decided to remove the campus firewalls at Clayton and Mernda. The CBD firewall handles security for the headquarters network and DMZ. The branch campuses rely on the VPN encryption and router ACLs for protection.
+We also tried placing firewalls at Clayton and Mernda but ran into another Packet Tracer limitation. The ASA 5506-X does not support VLAN sub-interfaces on physical ports in the simulation, which meant VLAN-tagged traffic from the switch could not pass through the firewall to reach the router sub-interfaces. After multiple failed attempts to work around this the group decided to remove the campus firewalls at Clayton and Mernda. The CBD firewall handles security for the headquarters network and DMZ. The branch campuses rely on VPN encryption and router ACLs for protection.
+
+---
+
+## Backup server
+
+Following tutor feedback that the design lacked redundancy and that relying solely on CBD-AUTH-01 for authentication created a vulnerability, the group added a dedicated backup server to the design.
+
+CBD-BACKUP-01 was added to serve two purposes:
+
+- Replication of patient records from CBD-DATA-01 so that if the primary database fails the backup can take over
+- Mirroring of the authentication database from CBD-AUTH-01 so that staff can still log in if the primary auth server fails
+
+In Packet Tracer, CBD-BACKUP-01 is connected to the inside network via CBD-SW-01 with IP 172.16.2.20/24. In a production environment it would sit in a dedicated DMZ zone with specific firewall rules permitting only replication traffic between it and the primary servers. Connectivity from CBD-BACKUP-01 to the inside network was verified successfully.
 
 ---
 
@@ -159,18 +174,36 @@ VPN tunnels were configured with the following parameters:
 VPN status after configuration:
 
 - Clayton to CBD: active, tunnel established, traffic encrypting (QM_IDLE confirmed)
-- Mernda to CBD: configured, pending final verification
-- Clayton to Mernda: configured but tunnel not establishing (see errors below)
+- Mernda to CBD: configured, tunnel negotiation fails in Packet Tracer simulation
+- Clayton to Mernda: configured, tunnel negotiation fails in Packet Tracer simulation
+
+The Clayton to CBD tunnel works because traffic passes through the CBD firewall which assists the IPSec negotiation. The Mernda to CBD and Clayton to Mernda tunnels fail at MM_NO_STATE. Debug output confirmed the IKE packets are being sent but not received by the peer. Routing between all campuses works correctly without encryption. This is documented as a Packet Tracer simulation limitation and would be resolved in a production environment with proper IOS and hardware.
+
+---
+
+## Final connectivity test results
+
+The following Simple PDU tests were run across all campuses after all configuration was complete:
+
+- Clayton Admin to Mernda Admin: successful
+- Clayton Admin to CBD Admin: successful
+- Mernda Admin to CBD Admin: successful
+- Clayton Doctor to Mernda Doctor: successful
+- Guest phone to Admin PC same campus: failed as expected, ACL working correctly
+
+All inter-campus and intra-campus connectivity tests passed. VLAN segmentation and ACLs are functioning correctly on all three campuses.
 
 ---
 
 ## Errors encountered
 
+Screenshots are in the /evidence folder.
+
 **Error 1: ASA 5505 interface limit**
 The ASA 5505 in Packet Tracer only supports 2 named interfaces. We could not create a DMZ zone. Fixed by replacing with ASA 5506-X.
 
 **Error 2: ASA DHCP conflict**
-When assigning an IP to Vlan1 on the ASA, we got an error saying the address was not on the same subnet as the default DHCP pool. Fixed by removing the default DHCP pool first using `no dhcpd address`.
+When assigning an IP to Vlan1 on the ASA we got an error saying the address was not on the same subnet as the default DHCP pool. Fixed by removing the default DHCP pool first using `no dhcpd address`.
 
 **Error 3: Cloud-PT not routing**
 The Cloud-PT device requires internal port mapping to pass traffic between connected devices. It does not route automatically. Fixed by removing the cloud and using the ISP router directly.
@@ -187,8 +220,11 @@ The ASA 5506-X does not support sub-interfaces on physical ports in Packet Trace
 **Error 7: Trunk encapsulation error on 3560**
 When setting Fa0/9 to trunk mode on the 3560 switch we received an error saying the interface encapsulation is Auto and cannot be set to trunk. Fixed by running `switchport trunk encapsulation dot1q` before `switchport mode trunk`.
 
-**Error 8: Clayton to Mernda VPN not establishing**
-The ISAKMP negotiation between Clayton and Mernda stays at MM_NO_STATE. Debug output confirmed Mernda is sending IKE packets but Clayton never receives them in the simulation. The CBD to Clayton tunnel works fine. This appears to be a Packet Tracer simulation limitation for direct router to router IPSec without an intermediate firewall device. Routing between Clayton and Mernda works correctly without VPN.
+**Error 8: Mernda to CBD and Clayton to Mernda VPN not establishing**
+Both tunnels stay at MM_NO_STATE. Debug confirmed IKE packets are being sent but not received by the peer router. This is a Packet Tracer simulation limitation. Routing between all campuses works correctly without encryption.
+
+**Error 9: Backup server DMZ interface not passing traffic**
+CBD-BACKUP-01 was initially connected to a dedicated DMZ interface on the firewall. Despite correct nameif and IP configuration the interface showed not configured via nameif in Packet Tracer and traffic could not pass. Fixed by connecting CBD-BACKUP-01 to the inside network via CBD-SW-01 instead.
 
 ---
 
@@ -198,18 +234,17 @@ We removed campus firewalls at Clayton and Mernda because the ASA sub-interface 
 
 We switched to static IPs after DHCP consistently failed due to the firewall blocking relay traffic.
 
-We removed the Cloud-PT device and used the ISP router as the internet representation after confirming the cloud does not support native routing.
+We removed the Cloud-PT device and used the ISP router as the internet representation after confirming the cloud does not support native routing between connected devices.
 
 We upgraded from ASA 5505 to ASA 5506-X to get the Security Plus license needed for the DMZ.
+
+We added CBD-BACKUP-01 following tutor feedback that the design lacked redundancy and that a single authentication server was a vulnerability.
 
 ---
 
 ## After meeting - future enhancements
 
 These items were identified during this week's session and will be noted as future improvements in the final report.
-
-**Backup server**
-A second database server should be added to replicate CBD-DATA-01. If the primary goes down the backup takes over. This was not implemented due to budget constraints but is flagged as a priority enhancement for the next phase.
 
 **Campus firewalls**
 Clayton and Mernda should each have a dedicated next-gen firewall such as Cisco Firepower that properly supports VLAN sub-interfaces and zone-based policy. The current design leaves branch campuses without dedicated perimeter protection.
@@ -220,11 +255,14 @@ A dedicated DHCP server in the DMZ with ip helper-address configured on each cam
 **Redundant firewall**
 CBD-FW-01 is a single point of failure. An Active/Standby HA pair would provide automatic failover with no downtime if the primary fails.
 
-**Clayton to Mernda direct VPN**
-The direct IPSec tunnel between Clayton and Mernda could not be established in the simulation. In production this would either be resolved through proper IKE negotiation or handled by routing all branch to branch traffic through the CBD firewall in a hub and spoke VPN design.
+**Mernda to CBD and Clayton to Mernda VPN**
+Both tunnels could not be established in the simulation. In production this would be resolved through proper IKE negotiation or by implementing a hub and spoke VPN design where all branch traffic routes through the CBD headquarters firewall.
 
 **WLC integration**
-The WLC at CBD was placed but not fully integrated. In production it would centrally manage all access points across all three campuses with consistent wireless policies.
+The WLC at CBD was placed but not fully integrated. In production it would centrally manage all access points across all three campuses with consistent wireless security policies.
+
+**Dedicated backup DMZ zone**
+CBD-BACKUP-01 is currently on the inside network due to Packet Tracer limitations. In production it would sit in a dedicated DMZ zone with specific firewall rules permitting only replication traffic between it and the primary servers.
 
 ---
 
@@ -238,12 +276,13 @@ The WLC at CBD was placed but not fully integrated. In production it would centr
 - Static IPs on all devices: done
 - Inter-campus routing: done
 - CBD firewall and DMZ: done
+- Backup server added: done
 - IPSec VPN Clayton to CBD: done and active
-- IPSec VPN Mernda to CBD: configured, pending test
+- IPSec VPN Mernda to CBD: configured, tunnel issue noted
 - IPSec VPN Clayton to Mernda: configured, tunnel issue noted
-- Final connectivity test: next session
+- Final connectivity test: done and passed
 
 ---
 
 Log maintained by the MMHN project team
-Next session: complete VPN verification, final connectivity testing, documentation
+Next session: final report compilation and submission preparation
