@@ -41,6 +41,10 @@ All devices were connected using the Automatic cable option in Packet Tracer. Sw
 
 We initially tried using the Cloud-PT device to represent the internet between campuses. After testing we found that Cloud-PT does not route traffic between connected devices without manual internal port mapping, which was not practical for our setup. We removed the cloud and connected all campus routers directly to the ISP router instead. The ISP router acts as the internet in the simulation, which is the standard Packet Tracer approach.
 
+<img width="1919" height="986" alt="image" src="https://github.com/user-attachments/assets/36d34704-0f2b-45ec-9fd9-c943acd8b3fa" />
+
+
+
 ---
 
 ## IP addressing
@@ -93,6 +97,10 @@ The CBD core switch (3560) handles inter-VLAN routing using the ip routing comma
 
 We originally planned to use the ASA 5505 at each campus. During configuration we hit a hard licensing wall on the 5505.
 
+
+<img width="883" height="233" alt="Screenshot 2026-05-03 115615" src="https://github.com/user-attachments/assets/e4d5f71f-e47d-47b8-8342-d38c5212b717" />
+
+
 Error received:
 ```
 ERROR: This license does not allow configuring more than 2 interfaces
@@ -100,6 +108,10 @@ with nameif and without a no forward command
 ```
 
 The ASA 5505 Base license in Packet Tracer only allows 2 named interfaces, which meant we could not create a DMZ zone. We replaced all firewall devices with the ASA 5506-X which has Security Plus license and supports unlimited interfaces.
+
+
+<img width="670" height="285" alt="image" src="https://github.com/user-attachments/assets/d10c1069-57ce-491d-90ad-0e88a430d7ca" />
+
 
 The CBD firewall was configured with four zones:
 
