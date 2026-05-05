@@ -161,8 +161,6 @@ VPN status after configuration:
 
 ## Errors encountered
 
-Screenshots are in the /evidence folder.
-
 **Error 1: ASA 5505 interface limit**
 The ASA 5505 in Packet Tracer only supports 2 named interfaces. We could not create a DMZ zone. Fixed by replacing with ASA 5506-X.
 
