@@ -16,6 +16,8 @@ This week the group focused entirely on building the MMHN network in Cisco Packe
 
 <img width="1915" height="1621" alt="Networkdesignfinal drawio" src="https://github.com/user-attachments/assets/25ee0967-1c1b-41fc-a098-76806005c8f4" />
 
+[Uploading NetworkDesign.drawio…]()
+
 ## Device setup
 
 We confirmed the following devices were available in Packet Tracer 8.2.2 and placed them on the canvas:
