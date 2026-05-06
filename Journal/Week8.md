@@ -135,6 +135,9 @@ CBD-BACKUP-01 was added to serve two purposes:
 
 In Packet Tracer, CBD-BACKUP-01 is connected to the inside network via CBD-SW-01 with IP 172.16.2.20/24. In a production environment it would sit in a dedicated DMZ zone with specific firewall rules permitting only replication traffic between it and the primary servers. Connectivity from CBD-BACKUP-01 to the inside network was verified successfully.
 
+<img width="513" height="410" alt="image" src="https://github.com/user-attachments/assets/95365a26-8676-419b-aa84-cccabe4556d7" />
+
+
 ---
 
 ## Access control lists
@@ -147,6 +150,9 @@ ACLs were configured on all campus routers and the CBD core switch to block unwa
 - All other traffic is permitted
 
 ACLs were applied inbound on router sub-interfaces for Clayton and Mernda, and on VLAN interfaces on the CBD core switch. Testing with Simple PDU confirmed that guest phones could not ping admin or doctor PCs on any campus.
+
+<img width="947" height="104" alt="image" src="https://github.com/user-attachments/assets/66903a2f-656c-47fd-a791-6103251891f3" />
+
 
 ---
 
@@ -186,10 +192,29 @@ VPN tunnels were configured with the following parameters:
 VPN status after configuration:
 
 - Clayton to CBD: active, tunnel established, traffic encrypting (QM_IDLE confirmed)
-- Mernda to CBD: configured, tunnel negotiation fails in Packet Tracer simulation
-- Clayton to Mernda: configured, tunnel negotiation fails in Packet Tracer simulation
 
-The Clayton to CBD tunnel works because traffic passes through the CBD firewall which assists the IPSec negotiation. The Mernda to CBD and Clayton to Mernda tunnels fail at MM_NO_STATE. Debug output confirmed the IKE packets are being sent but not received by the peer. Routing between all campuses works correctly without encryption. This is documented as a Packet Tracer simulation limitation and would be resolved in a production environment with proper IOS and hardware.
+<img width="456" height="234" alt="image" src="https://github.com/user-attachments/assets/a99b3f96-8c7d-423c-b1b2-2250ef095b90" />
+
+
+<img width="537" height="169" alt="image" src="https://github.com/user-attachments/assets/58f52402-68a1-4520-bba7-eb15f347715b" />
+
+
+- Mernda to CBD: configured, tunnel negotiation successful in Packet Tracer simulation (QM_IDLE confirmed)
+
+<img width="479" height="217" alt="image" src="https://github.com/user-attachments/assets/70aa6e8c-8a87-49b6-96cf-c8ff5fc64b15" />
+
+<img width="543" height="196" alt="image" src="https://github.com/user-attachments/assets/c4580ae6-03b8-4626-afb2-973f63aaa2a5" />
+
+
+- Clayton to Mernda: configured, tunnel negotiation successful in Packet Tracer simulation (QM_IDLE confirmed)
+
+<img width="452" height="225" alt="image" src="https://github.com/user-attachments/assets/2c16ff7d-65dd-4f90-9c91-052ff3c328c5" />
+
+<img width="542" height="185" alt="image" src="https://github.com/user-attachments/assets/c54ad795-2219-4d4b-a0ef-8f16635191fe" />
+
+
+
+All three tunnels were initially showing as not established during testing because VPN tunnels only activate when real traffic passes through them. Once traffic was triggered from each campus the tunnels negotiated and established successfully. The first few packets in each ping timed out during tunnel negotiation and subsequent packets came through encrypted.
 
 ---
 
@@ -232,8 +257,8 @@ The ASA 5506-X does not support sub-interfaces on physical ports in Packet Trace
 **Error 7: Trunk encapsulation error on 3560**
 When setting Fa0/9 to trunk mode on the 3560 switch we received an error saying the interface encapsulation is Auto and cannot be set to trunk. Fixed by running `switchport trunk encapsulation dot1q` before `switchport mode trunk`.
 
-**Error 8: Mernda to CBD and Clayton to Mernda VPN not establishing**
-Both tunnels stay at MM_NO_STATE. Debug confirmed IKE packets are being sent but not received by the peer router. This is a Packet Tracer simulation limitation. Routing between all campuses works correctly without encryption.
+**Error 8: VPN tunnels not showing in ISAKMP table**
+Running show crypto isakmp sa immediately after configuration showed empty results. This was because VPN tunnels only establish when actual traffic triggers them. Fixed by sending ping traffic between campuses which triggered tunnel negotiation. All three tunnels showed QM_IDLE once traffic was flowing.
 
 **Error 9: Backup server DMZ interface not passing traffic**
 CBD-BACKUP-01 was initially connected to a dedicated DMZ interface on the firewall. Despite correct nameif and IP configuration the interface showed not configured via nameif in Packet Tracer and traffic could not pass. Fixed by connecting CBD-BACKUP-01 to the inside network via CBD-SW-01 instead.
