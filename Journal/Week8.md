@@ -91,6 +91,22 @@ Four VLANs were configured on all campus switches:
 
 The CBD core switch (3560) handles inter-VLAN routing using the ip routing command since it is a Layer 3 switch. Clayton and Mernda use router-on-a-stick because their 2960 switches are Layer 2 only. Sub-interfaces were created on each campus router for each VLAN.
 
+## How segmentation is enforced (technical)
+
+Segmentation is enforced through three combined mechanisms:
+
+**1. Layer 2 isolation on access switches:**
+- Each access port is assigned to a single VLAN with `switchport access vlan <id>`
+- Trunk ports between switches and routers carry tagged frames using IEEE 802.1Q
+- Unused ports are administratively shut down
+
+**2. Layer 3 control via ACLs:**
+- ACLs applied inbound on router sub-interfaces (Clayton, Mernda) and on switched virtual interfaces (CBD core switch)
+- Default rule is permit, with explicit deny entries for prohibited flows
+
+**3. Perimeter inspection on the ASA 5506-X firewall (CBD):**
+- Stateful inspection of all traffic crossing security zones
+- Higher security level zones can initiate to lower; reverse direction requires e
 ---
 
 ## Firewall
