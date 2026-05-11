@@ -319,6 +319,7 @@ CBD-BACKUP-01 is currently on the inside network due to Packet Tracer limitation
 
 ---
 
+
 ## Week summary
 
 - Device placement and cabling: done
