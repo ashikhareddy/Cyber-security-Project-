@@ -18,8 +18,6 @@ Before using laptop we used university pc but were not successfull. Ethernet cab
 
 <img width="1099" height="177" alt="network up" src="https://github.com/user-attachments/assets/3dbe1519-cc80-4319-a2d6-e639a023ecbb" />
 
-<img width="686" height="337" alt="Screenshot 2026-05-11 145455" src="https://github.com/user-attachments/assets/3dc1e6f6-d536-4161-99d0-f0b2d7e910e8" />
-
 The setup was like this router -> switch -> Laptop below is the proof. 
 
 <img width="1200" height="1600" alt="WhatsApp Image 2026-05-12 at 9 50 07 AM (1)" src="https://github.com/user-attachments/assets/d3c1a476-ff64-44eb-99af-b2d6f14b4104" />
