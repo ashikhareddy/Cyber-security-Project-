@@ -335,6 +335,8 @@ CBD-BACKUP-01 is currently on the inside network due to Packet Tracer limitation
 - IPSec VPN Clayton to Mernda: configured, tunnel issue noted
 - Final connectivity test: done and passed
 
+
+
 ---
 
 Log maintained by the MMHN project team
