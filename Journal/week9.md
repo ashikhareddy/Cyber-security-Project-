@@ -6,5 +6,27 @@ We then started assembling the prototype in the computer lab. During this sessio
 
 While working with the physical devices, we faced several challenges. Some connections did not work properly at first, and we experienced issues with cable placement, port assignments, and initial device configurations. We had to troubleshoot these problems by checking connections and adjusting settings until the devices communicated correctly.
 
+This happenned because there was not much of a man power. Me(Kunj Acharya) and Ashikha were attending our classes after finishing them we joined masum and Kunj.Later with the help of AI we were able to finish a lot of things like basic connectivity and testing. We able to successfully finish setting up one connection between router and laptop. As you can see in the image below we were able to ping and receive the response perfectly
+
+Before using laptop we used university pc but were not successfull. Ethernet cable was plugged in correctly but the router was not giving ip to the device. we could not change any settings for the PC as it required administration access. so we changed the end device to laptop. below are some errors we encountered while trying to connect university ps to the router. 
+
+1. even as shown below the router was not assigning ip.
+
+<img width="689" height="532" alt="No IP of network" src="https://github.com/user-attachments/assets/5e4ca265-f485-4cf1-a994-3f0d5e995e6b" />
+
+2. We tried to see wether the port was not working or was it the cable, but when we ran the command it showed that the cable was connected but the internet was not passing. The port status was UP but was unable to connect to router.
+
+<img width="1099" height="177" alt="network up" src="https://github.com/user-attachments/assets/3dbe1519-cc80-4319-a2d6-e639a023ecbb" />
+
+<img width="686" height="337" alt="Screenshot 2026-05-11 145455" src="https://github.com/user-attachments/assets/3dc1e6f6-d536-4161-99d0-f0b2d7e910e8" />
+
+The setup was like this router -> switch -> Laptop below is the proof. 
+
+<img width="1200" height="1600" alt="WhatsApp Image 2026-05-12 at 9 50 07 AM (1)" src="https://github.com/user-attachments/assets/d3c1a476-ff64-44eb-99af-b2d6f14b4104" />
+<img width="1200" height="1600" alt="WhatsApp Image 2026-05-12 at 9 50 06 AM" src="https://github.com/user-attachments/assets/d0a7ed14-b948-4f11-b50a-ce8c6a6ea083" />
+<img width="1200" height="1600" alt="WhatsApp Image 2026-05-12 at 9 50 07 AM" src="https://github.com/user-attachments/assets/25f1d884-d7ce-49aa-bd63-545b242997f6" />
+
+
+
 Due to the limited lab time, we were not able to complete all remaining configurations and tests. However, Week 9 was a significant milestone, as we began the practical implementation of the project and successfully created the first working prototype of the hospital network. This progress provides a strong foundation for completing the full setup in the upcoming weeks.
 
