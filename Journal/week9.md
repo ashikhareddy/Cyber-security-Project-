@@ -21,8 +21,10 @@ Before using laptop we used university pc but were not successfull. Ethernet cab
 The setup was like this router -> switch -> Laptop below is the proof. 
 
 <img width="1200" height="1600" alt="WhatsApp Image 2026-05-12 at 9 50 07 AM (1)" src="https://github.com/user-attachments/assets/d3c1a476-ff64-44eb-99af-b2d6f14b4104" />
-<img width="1200" height="1600" alt="WhatsApp Image 2026-05-12 at 9 50 06 AM" src="https://github.com/user-attachments/assets/d0a7ed14-b948-4f11-b50a-ce8c6a6ea083" />
+
 <img width="1200" height="1600" alt="WhatsApp Image 2026-05-12 at 9 50 07 AM" src="https://github.com/user-attachments/assets/25f1d884-d7ce-49aa-bd63-545b242997f6" />
+
+<img width="1200" height="1600" alt="WhatsApp Image 2026-05-12 at 9 50 06 AM" src="https://github.com/user-attachments/assets/d0a7ed14-b948-4f11-b50a-ce8c6a6ea083" />
 
 
 
