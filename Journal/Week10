@@ -15,6 +15,9 @@ This week focused on setting up a small office network using physical hardware (
 ### 1. Physical Network Setup
 Cabled the lab topology connecting the workstation through the Cisco Catalyst switch to the TP-Link routers and UniFi AP. Verified link lights on switch ports and confirmed PoE-powered devices came up correctly.
 
+
+
+
 ### 2. IP Configuration & Connectivity Testing
 Ran `ipconfig /all` on the ACS-VM to confirm the host received the correct IP (192.168.56.1) on the Ethernet 3 adapter. Initial `ping 192.168.1.1` returned "Destination host unreachable" — traced this to a missing route / wrong subnet. After correcting the adapter configuration, `ping 192.168.1.2` returned 4/4 replies at 1ms TTL=128.
 
