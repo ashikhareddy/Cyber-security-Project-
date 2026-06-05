@@ -1,1 +1,213 @@
+# Week 13 — Physical Prototype: Full Lab Session
 
+**Date:** 5 June 2026
+**Location:** CQUniversity Lab
+**Team Members Present:** Kunj Acharya, Masum Patel
+
+---
+
+## Session Overview
+
+This session completed the physical prototype for the Melbourne Metro Health Network (MMHN). All three campus routers were verified and connected in a hub-and-spoke topology. VLAN segmentation was configured on all three Cisco Catalyst switches via console cable. Security hardening was applied to all TP-Link routers. Windows Firewall rules were added to the ACS VM to mirror the ACL design from the Packet Tracer simulation. Inter-campus routing was confirmed with successful pings between the CBD VM and both Clayton and Mernda routers.
+
+---
+
+## 1. Mernda Router — IP Configuration and Verification
+
+The Mernda campus TP-Link router was the final router to be configured this session. The router was reset to factory default (192.168.0.1) and the LAN IP was changed to 192.168.12.1 via the admin panel. The laptop was set to DHCP, which assigned 192.168.12.100 automatically after the router rebooted.
+
+Ping test confirmed 0% packet loss:
+
+```
+Pinging 192.168.12.1 with 32 bytes of data:
+Reply from 192.168.12.1: bytes=32 time<1ms TTL=64
+Reply from 192.168.12.1: bytes=32 time<1ms TTL=64
+Reply from 192.168.12.1: bytes=32 time<1ms TTL=64
+Reply from 192.168.12.1: bytes=32 time<1ms TTL=64
+Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
+```
+
+All three routers now confirmed:
+
+| Campus | Router IP | Status |
+|--------|-----------|--------|
+| CBD | 192.168.10.1 | Verified |
+| Clayton | 192.168.11.1 | Verified |
+| Mernda | 192.168.12.1 | Verified |
+
+---
+
+## 2. Hub-and-Spoke Topology Connected
+
+Physical connections established as per the MMHN design:
+
+- Wall outlet → CBD TP-Link (WAN port)
+- Clayton TP-Link WAN port → CBD LAN port
+- Mernda TP-Link WAN port → CBD LAN port
+- Each TP-Link LAN → Cisco Catalyst 3560-CX switch → end device
+
+This mirrors the hub-and-spoke design from the logical network diagram and the Packet Tracer simulation.
+
+---
+
+## 3. Security Hardening — All Three TP-Link Routers
+
+Security hardening was applied to all three TP-Link routers via the admin panel. The following changes were made on each router:
+
+- Admin password changed from default to a strong password
+- WPA2-PSK with AES encryption enabled on both 2.4GHz and 5GHz bands
+- SSID renamed per campus: CBD campus, Clayton campus, Mernda campus
+- Remote management disabled
+
+![TP-Link CBD Campus Wireless Settings — WPA2-PSK, AES, SSID: CBD campus](evidence/tp_link_CBD_campus.png)
+
+---
+
+## 4. Windows Firewall Rules — ACS VM (CBD Campus)
+
+Windows Firewall rules were added to the ACS VM on the CBD campus to mirror the ACL rules from the Packet Tracer simulation. Rules were applied using `netsh advfirewall` in an elevated Command Prompt.
+
+Rules added:
+- Block Guest subnet (192.168.40.0/24) from reaching Admin (192.168.10.0/24)
+- Block Guest subnet (192.168.40.0/24) from reaching Clinical (192.168.20.0/24)
+- Block IoT subnet (192.168.30.0/24) from reaching Clinical (192.168.20.0/24)
+
+Verification command output:
+
+```
+Rule Name:    Block IoT to Clinical     Action: Block
+Rule Name:    Block Guest to Clinical   Action: Block
+Rule Name:    Block Guest to Admin      Action: Block
+```
+
+![Windows Firewall rules confirmed — three block rules active](evidence/firewall_block.png)
+
+---
+
+## 5. Switch VLAN Configuration — CBD Campus (MelbourneSwitch3)
+
+Console cable connected via USB-to-serial adapter (COM4). PuTTY used at 9600 baud.
+
+VLANs created:
+
+```
+vlan 10 — Admin
+vlan 20 — Clinical
+vlan 30 — IoT-Medical
+vlan 40 — Guest-WiFi
+```
+
+Port assignments:
+
+```
+Gi0/1 → VLAN 10 (Admin)
+Gi0/2 → VLAN 20 (Clinical)
+Gi0/3 → VLAN 30 (IoT-Medical)
+Gi0/4 → VLAN 40 (Guest-WiFi)
+```
+
+Configuration saved with `write memory` — confirmed [OK].
+
+![CBD switch — VLAN creation commands](evidence/Putty_CBD_campus_switch.png)
+
+![CBD switch — VLANs active after creation](evidence/Putty_CBD_campus_switch_1.png)
+
+![CBD switch — port assignments, show vlan brief, write memory OK](evidence/Putty_CBD_campus_switch2.png)
+
+---
+
+## 6. Switch VLAN Configuration — Clayton Campus
+
+Console cable moved to Clayton switch. Connected on COM4 via PuTTY.
+
+Same four VLANs created (10 Admin, 20 Clinical, 30 IoT-Medical, 40 Guest-WiFi). Port assignments applied to Gi0/1 through Gi0/4. Configuration saved with `write memory` — confirmed [OK].
+
+![Clayton switch — VLAN creation and show vlan brief](evidence/Putty_clayton_campus.png)
+
+![Clayton switch — port assignments, show vlan brief, write memory OK](evidence/Putty_clayton_campus1.png)
+
+---
+
+## 7. Switch VLAN Configuration — Mernda Campus (MEL-01-SW-01)
+
+Console cable moved to Mernda switch. Connected on COM4 via PuTTY.
+
+Switch prompt: `MEL-01-SW-01>`. Note: this switch had a pre-existing VLAN 52 (VLAN52-NET_MANGMNT) which was left in place. The four MMHN VLANs were added alongside it.
+
+Same four VLANs created. Port assignments applied to Gi0/1 through Gi0/4. Configuration saved with `write memory` — confirmed [OK].
+
+![Mernda switch — VLAN creation and initial show vlan brief](evidence/Putty_meranda_campus.png)
+
+![Mernda switch — port assignments, show vlan brief with ports assigned, write memory OK](evidence/Putty_meranda_campus_1.png)
+
+---
+
+## 8. Inter-Campus Connectivity — Ping Tests
+
+From the ACS Windows VM on the CBD campus, pings were sent to both Clayton and Mernda routers to verify inter-campus routing through the hub-and-spoke topology.
+
+```
+ping 192.168.12.1 (Mernda router)
+Reply from 192.168.12.1: bytes=32 time=42ms TTL=249
+Reply from 192.168.12.1: bytes=32 time=42ms TTL=249
+Reply from 192.168.12.1: bytes=32 time=42ms TTL=249
+Reply from 192.168.12.1: bytes=32 time=42ms TTL=249
+Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
+
+ping 192.168.11.1 (Clayton router)
+Reply from 192.168.11.1: bytes=32 time=37ms TTL=249
+Reply from 192.168.11.1: bytes=32 time=39ms TTL=249
+Reply from 192.168.11.1: bytes=32 time=37ms TTL=249
+Reply from 192.168.11.1: bytes=32 time=37ms TTL=249
+Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
+```
+
+Both spoke campus routers reachable from the CBD hub with 0% packet loss. TTL of 249 confirms traffic is routing through multiple hops as expected in the hub-and-spoke design.
+
+![Ping to Mernda router — 0% loss](evidence/ping_mernda.png)
+
+![Ping to Mernda and Clayton routers — both 0% loss](evidence/ping_confirm_mernda_and_clayton_router.png)
+
+---
+
+## 9. Known Limitations
+
+**End-to-end device pings:** Direct pings between end devices across campuses (e.g. Clayton PC to Mernda PC) return destination unreachable. This is due to NAT on the consumer TP-Link routers. Resolving this would require static routes configured on the CBD router's admin panel or replacing TP-Link routers with enterprise routing equipment. This is documented as a hardware constraint rather than a design flaw — the Packet Tracer simulation demonstrates full end-to-end connectivity under enterprise conditions.
+
+**VLAN enforcement across campuses:** VLAN segmentation is enforced at the switch level within each campus. Cross-campus VLAN traffic separation relies on ACL rules (implemented via Windows Firewall on the VM) rather than inter-campus switch trunking, which would require enterprise-grade inter-switch connections.
+
+---
+
+## 10. Session Summary
+
+| Task | Status |
+|------|--------|
+| Mernda router configured (192.168.12.1) | Complete |
+| Hub-and-spoke topology physically connected | Complete |
+| Security hardening on all 3 TP-Link routers | Complete |
+| Windows Firewall rules — 3 block rules active | Complete |
+| CBD switch — 4 VLANs + port assignments + saved | Complete |
+| Clayton switch — 4 VLANs + port assignments + saved | Complete |
+| Mernda switch — 4 VLANs + port assignments + saved | Complete |
+| Inter-campus pings — CBD to Clayton and Mernda | Complete |
+| End-to-end device pings | Documented as limitation |
+
+The physical prototype now demonstrates: correct IP addressing across all three campuses, VLAN segmentation on all three switches, hub-and-spoke topology with verified inter-campus routing, WPA2 wireless security, and firewall rules mirroring the ACL design. This satisfies the prototype objectives for COIT13236 Assessment 3.
+
+---
+
+## Evidence Files
+
+All screenshots stored in `/Journal/evidence/`:
+
+- `ping_mernda.png` — Mernda router ping from CBD VM
+- `ping_confirm_mernda_and_clayton_router.png` — Both spoke routers pinged successfully
+- `firewall_block.png` — Windows Firewall block rules confirmed
+- `tp_link_CBD_campus.png` — WPA2 security on CBD router
+- `Putty_CBD_campus_switch.png` — CBD switch VLAN creation
+- `Putty_CBD_campus_switch_1.png` — CBD switch VLANs active
+- `Putty_CBD_campus_switch2.png` — CBD switch ports assigned, saved
+- `Putty_clayton_campus.png` — Clayton switch VLANs created
+- `Putty_clayton_campus1.png` — Clayton switch ports assigned, saved
+- `Putty_meranda_campus.png` — Mernda switch VLANs created
+- `Putty_meranda_campus_1.png` — Mernda switch ports assigned, saved
