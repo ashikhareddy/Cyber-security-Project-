@@ -1,1 +1,102 @@
+Week 13 Lab Session — Physical Prototype Completion
+Date: 5 June 2026
+Location: CQUniversity Lab
+Present: Kunj Acharya, Masum Patel
 
+What We Did This Session
+Today was the final lab session for the physical prototype. The main goals were to finish the Mernda router setup, get all three routers connected properly, configure VLANs on each switch, add firewall rules on the VM, and verify that all campuses could communicate. By the end of the session everything was working and tested.
+
+Mernda Router Setup
+When we first plugged the Mernda router in it was still on factory default, so the laptop was pulling a 192.168.0.x address. We switched the laptop adapter to DHCP first to get a connection, then logged into the admin page at 192.168.0.1 and changed the LAN IP to 192.168.12.1. After the router rebooted the laptop picked up 192.168.12.100 automatically.
+We ran a ping to confirm:
+ping 192.168.12.1
+
+Reply from 192.168.12.1: bytes=32 time<1ms TTL=64
+Reply from 192.168.12.1: bytes=32 time<1ms TTL=64
+Reply from 192.168.12.1: bytes=32 time<1ms TTL=64
+Reply from 192.168.12.1: bytes=32 time<1ms TTL=64
+Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
+All three routers were now set correctly:
+CampusIP AddressVerifiedCBD192.168.10.1YesClayton192.168.11.1YesMernda192.168.12.1Yes
+
+Physical Topology
+Once all three routers were configured we connected them into the hub-and-spoke layout. The wall outlet goes into the CBD router WAN port. The Clayton and Mernda routers each connect their WAN port into one of the CBD router LAN ports. Each router then connects to its Cisco Catalyst 3560-CX switch, which connects to the end device. This matches the design we built in Packet Tracer.
+
+Router Security Hardening
+We went into each router admin panel and made the following changes on all three:
+
+Changed the default admin password
+Set wireless security to WPA2-PSK with AES encryption
+Renamed each SSID to match the campus name (CBD campus, Clayton campus, Mernda campus)
+Turned off remote management
+
+Show Image
+
+Firewall Rules on ACS VM
+We added Windows Firewall rules on the CBD campus VM to replicate the ACL rules from our Packet Tracer design. All commands were run in an elevated Command Prompt using netsh advfirewall.
+Three rules were added:
+
+Block IoT (192.168.30.0/24) from reaching Clinical (192.168.20.0/24)
+Block Guest (192.168.40.0/24) from reaching Clinical (192.168.20.0/24)
+Block Guest (192.168.40.0/24) from reaching Admin (192.168.10.0/24)
+
+We verified the rules were active:
+Rule Name: Block IoT to Clinical    Action: Block
+Rule Name: Block Guest to Clinical  Action: Block
+Rule Name: Block Guest to Admin     Action: Block
+Show Image
+
+VLAN Config — CBD Switch (MelbourneSwitch3)
+Connected the console cable to the CBD switch via USB-to-serial adapter on COM4. Opened PuTTY at 9600 baud. Created four VLANs and assigned each one to a port.
+VLANs created:
+VLAN 10 — Admin
+VLAN 20 — Clinical
+VLAN 30 — IoT-Medical
+VLAN 40 — Guest-WiFi
+Port assignments:
+Gi0/1 — VLAN 10
+Gi0/2 — VLAN 20
+Gi0/3 — VLAN 30
+Gi0/4 — VLAN 40
+Ran write memory at the end and got [OK].
+Show Image
+Show Image
+Show Image
+
+VLAN Config — Clayton Switch
+Moved the console cable to the Clayton switch. Same process as CBD. Created all four VLANs, assigned ports Gi0/1 through Gi0/4, saved with write memory.
+Show Image
+Show Image
+
+VLAN Config — Mernda Switch (MEL-01-SW-01)
+Moved the console cable to the Mernda switch. The switch had a pre-existing VLAN 52 (VLAN52-NET_MANGMNT) on it which we left alone. We added the four MMHN VLANs on top of it. Same port assignments applied. Saved with write memory and got [OK].
+Show Image
+Show Image
+
+Inter-Campus Ping Tests
+From the ACS VM on the CBD campus we pinged both Clayton and Mernda routers to test whether inter-campus routing was working through the hub.
+ping 192.168.12.1
+
+Reply from 192.168.12.1: bytes=32 time=42ms TTL=249
+Reply from 192.168.12.1: bytes=32 time=42ms TTL=249
+Reply from 192.168.12.1: bytes=32 time=42ms TTL=249
+Reply from 192.168.12.1: bytes=32 time=42ms TTL=249
+Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
+
+ping 192.168.11.1
+
+Reply from 192.168.11.1: bytes=32 time=37ms TTL=249
+Reply from 192.168.11.1: bytes=32 time=39ms TTL=249
+Reply from 192.168.11.1: bytes=32 time=37ms TTL=249
+Reply from 192.168.11.1: bytes=32 time=37ms TTL=249
+Packets: Sent = 4, Received = 4, Lost = 0 (0% loss)
+Both came back with 0% packet loss. The TTL value of 249 shows traffic is passing through multiple hops, which is expected in a hub-and-spoke setup.
+Show Image
+Show Image
+
+Known Limitations
+Pinging end devices across campuses returned destination host unreachable. This happens because the TP-Link routers are consumer-grade devices doing NAT. Traffic behind each router cannot be reached directly from another subnet without static routes or enterprise routing equipment. This is a hardware limitation not a design problem. The Packet Tracer simulation already shows full end-to-end connectivity under proper enterprise conditions.
+VLAN separation across campuses is handled by Windows Firewall ACL rules on the VM rather than inter-switch trunking. Full trunking between campuses would need enterprise-grade inter-campus switching.
+
+Session Summary
+TaskResultMernda router IP configured and verifiedDoneHub-and-spoke topology physically connectedDoneWPA2 and security hardening on all 3 routersDoneWindows Firewall block rules added to ACS VMDoneCBD switch VLANs configured and savedDoneClayton switch VLANs configured and savedDoneMernda switch VLANs configured and savedDoneInter-campus pings from CBD to Clayton and MerndaDoneEnd-to-end device pingsNot possible — documented as hardware limitation
